@@ -1,3 +1,5 @@
+![yak](https://pixabay.com/static/uploads/photo/2012/04/26/14/01/yak-42541_640.png)
+
 # Yak
 
 
@@ -8,7 +10,7 @@ Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.or
 
 Usage documentation can be found at http://webcloud.se/yak
 
-![yak](https://pixabay.com/static/uploads/photo/2012/04/26/14/01/yak-42541_640.png)
+
 
 
 
