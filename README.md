@@ -9,10 +9,3 @@ Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.or
 `node-fetch` on the server, which makes it really easy for you to write a peristance layer in an isomorphic fashion. 
 
 Usage documentation can be found at http://webcloud.se/yak
-
-
-
-
-
-
-```
