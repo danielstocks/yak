@@ -1,0 +1,29 @@
+{
+  "name": "yak",
+  "version": "0.0.1",
+  "description": "Yak is an ORM that maps REST resources to JavaScript models/collections",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielstocks/yak.git"
+  },
+  "keywords": [
+    "ORM"
+  ],
+  "author": "Daniel Stocks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danielstocks/yak/issues"
+  },
+  "homepage": "https://webcloud.se/yak",
+  "devDependencies": {
+    "restify": "^4.0.2"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "node-fetch": "^1.3.2"
+  }
+}
