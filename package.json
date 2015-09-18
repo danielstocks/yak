@@ -1,5 +1,5 @@
 {
-  "name": "yak",
+  "name": "yak-orm",
   "version": "0.0.1",
   "description": "Yak is an ORM that maps REST resources to JavaScript models/collections",
   "main": "index.js",
