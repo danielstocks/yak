@@ -37,6 +37,21 @@ user.save().then(user => {
   console.log(error);
 });
 
+
+// Create invalid user
+var invalidUser = new User({
+  attrs: {
+    email: "invalid@webcloud.se"
+  }
+});
+
+invalidUser.save().then(user => {
+  console.log("this should not log");
+}).catch(error => {
+  console.log("Could not save user:", error);
+});
+
+
 // Get all users
 User.all({
   where: {

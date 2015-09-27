@@ -25,9 +25,15 @@ function getUser(id) {
 // Create user
 server.post('/users', function (req, res, next) {
   req.body.id = id;
-  users.push(req.body)
-  id++;
-  res.send(req.body);
+  if('name' in req.body) {
+    users.push(req.body)
+    id++;
+    res.send(req.body);
+  } else {
+    res.send(422, { error: 'ValidationError', fields: {
+      'name': 'Property "name" is required'}
+    });
+  }
   return next();
 });
 
