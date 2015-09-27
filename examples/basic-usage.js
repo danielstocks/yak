@@ -29,22 +29,28 @@ var user = new User({
 user.save().then(user => {
   // Update user name
   user.attrs.name = "Yak Yak"
+  console.log("User id:", user.attrs.id, "created");
   return user.save()
+}).then(user => {
+  console.log("User id:", user.attrs.id, "updated");
 }).catch(error => {
   console.log(error);
 });
 
 // Get all users
 User.all({
-    where: {
-      active : true
-    }
-  }).then(users => {
+  where: {
+    active : true
+  }
+}).then(users => {
+  console.log("Fetching all users:");
   users.forEach(user => {
-    console.log(user.attrs.id, user.attrs.name);
+    console.log("\t", user.attrs.id, user.attrs.name);
   });
   // Delete the first user
-  return users[0].destroy();
+  return users[1].destroy();
 }).then(user => {
-  console.log("Deleted user:", user.attrs.id);
+  console.log("User id:", user.attrs.id, "deleted");
+}).catch(error => {
+  console.log(error);
 });

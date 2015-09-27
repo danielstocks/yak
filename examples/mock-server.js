@@ -8,7 +8,8 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
 server.pre(function (req, res, next) {
-  console.log("---", req.method, "---", req.url);
+  console.log("\n-- ", req.method, "---", req.url);
+  console.log(req.headers);
   next();
 });
 
