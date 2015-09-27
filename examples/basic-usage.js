@@ -5,19 +5,13 @@ var yak = new Yak({
   host: "http://localhost:8080/"
 })
 
-// On the fly HTTP header configration
-yak.setHeaders({
-  'Accept-Language' : 'en',
-  'Authentication-Token': 'abc123'
-});
-
 // Model defintion
-var User = yak.Model({
+var User = yak.model({
   url: "users"
 });
 
 // Get existing user
-var user = User.get(1).then(user => {
+var user = User.get({id: 1}).then(user => {
   console.log("Retrieved user:", user.attrs);
 }).catch(error => {
   console.log(error);
@@ -25,8 +19,10 @@ var user = User.get(1).then(user => {
 
 // Create a new user
 var user = new User({
-  name: "Daniel",
-  email: "daniel@webcloud.se"
+  attrs: {
+    name: "Daniel",
+    email: "daniel@webcloud.se"
+  }
 });
 
 // Persist to server
@@ -39,12 +35,16 @@ user.save().then(user => {
 });
 
 // Get all users
-User.all().then(users => {
-  users.models.forEach(user => {
+User.all({
+    where: {
+      active : true
+    }
+  }).then(users => {
+  users.forEach(user => {
     console.log(user.attrs.id, user.attrs.name);
   });
   // Delete the first user
-  return users.models[0].destroy();
+  return users[0].destroy();
 }).then(user => {
   console.log("Deleted user:", user.attrs.id);
 });

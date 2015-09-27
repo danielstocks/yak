@@ -7,6 +7,23 @@ Yak is an ORM that maps RESTful resources to JavaScript models/collections.
 Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Yak uses `window.fetch` on the client, and
 `node-fetch` on the server, which makes it really easy for you to write a persistence layer in an isomorphic fashion.
 
+## Installation & Requirements
+
+Yak requires Node.js >= 4.0. To run in a web browser environment you'll need native or polyfilled support for
+ES6 Promises, Object.assign, Fat Arrow Syntax, and the window.fetch API.
+
+Run `npm install yak-orm` and then require it in your project:
+
+```js
+var Yak = require('yak-orm');
+var yak = new Yak({
+  host: "http://localhost:8080/"
+});
+```
+
+You should now be ready to go!
+
+
 ## Yak is a work in progress
 
 Features that are on the roadmap but *not yet* currently implemented include:
@@ -24,7 +41,7 @@ Features that are on the roadmap but *not yet* currently implemented include:
 Create a new Yak instance
 
 #### Arguments
-host (String) | Specify your API endpoint here
+- host (String) | Specify your API endpoint here
 
 #### Example
 ```js
@@ -34,34 +51,17 @@ var yak = new Yak({
 });
 ```
 
-### yakInstance.setHeaders
-
-Change the HTTP headers that are being sent when a request is made in Yak.
-
-#### Arguments
-headers (Object) | Any HTTP headers that you can think of!
-
-#### Example
-```js
-// On the fly HTTP header configration
-yak.setHeaders({
-  'Accept-Language' : 'en',
-  'Authentication-Token': 'abc123'
-});
-```
-
-
-### yakInstance.Model
+### yakInstance.model
 
 Create a new model based on a Yak instance
 
 #### Arguments
-url (String) | The URL of specified model on API server
+- url (String) | The URL of specified model on API server
 
 #### Example
 ```js
 // Model defintion
-var User = yak.Model({
+var User = yak.model({
   url: "users"
 });
 ```
@@ -71,14 +71,21 @@ var User = yak.Model({
 Create a new instance of a model
 
 #### Arguments
-attrs (Object) | An object of attributes that will be asigned to the model
+- attrs (Object) | An object of attributes that will be assigned to the model
+- headers (Object) | Specify HTTP headers to be sent along with any model requests
 
 #### Example
 ```js
 // Create a new user
 var user = new User({
-  name: "John",
-  email: "john@doe.com"
+  attrs: {
+    name: "John",
+    email: "john@doe.com"
+  },
+  headers: {
+    'Accept-Language' : 'en',
+    'Authentication-Token': 'abc123'
+  }
 });
 ```
 
@@ -87,12 +94,22 @@ var user = new User({
 Retrieve a model from server
 
 #### Arguments
-id (String) | An identifer that will be used to fetch the resource
+- id (String) | An identifier that will be used to fetch the resource
+- where (Object) | Additional query parameters to be sent in request
+- headers (Object) | Specify HTTP headers to be sent along with the request
 
 #### Example
 ```js
-// GET http://localhost:8080/users/1
-var user = User.get(1).then(user => {
+// GET http://localhost:8080/users/1?active=true
+var user = User.get({
+  id: 5,
+  where: {
+    active: true
+  }
+  headers: {
+    'Accept-Language' : 'fa',
+  }
+}).then(user => {
   console.log("Retrieved user:", user.attrs);
 }).catch(error => {
   console.log(error);
@@ -102,6 +119,10 @@ var user = User.get(1).then(user => {
 ### Model.all
 
 Retrieve a collection of models from server
+
+#### Arguments
+- where (Object) | Additional query parameters to be sent in request
+- headers (Object) | Specify HTTP headers to be sent along with the request
 
 #### Example
 ```js
