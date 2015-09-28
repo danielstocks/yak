@@ -11,7 +11,12 @@ var User = yak.model({
 });
 
 // Get existing user
-var user = User.get({id: 1}).then(user => {
+var user = User.get({
+  id: 1,
+  headers: {
+    'Accept-Language' : 'fa',
+  }
+}).then(user => {
   console.log("Retrieved user:", user.attrs);
 }).catch(error => {
   console.log(error);
@@ -22,6 +27,9 @@ var user = new User({
   attrs: {
     name: "Daniel",
     email: "daniel@webcloud.se"
+  },
+  headers: {
+    'Authentication-Token': 'abc123'
   }
 });
 
