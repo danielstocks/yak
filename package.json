@@ -4,7 +4,7 @@
   "description": "Yak is an ORM that maps REST resources to JavaScript models/collections",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,11 @@
   },
   "homepage": "https://webcloud.se/yak",
   "devDependencies": {
-    "restify": "^4.0.2"
+    "mocha": "^2.3.3",
+    "nock": "^2.13.0",
+    "restify": "^4.0.2",
+    "rewire": "^2.3.4",
+    "sinon": "^1.17.1"
   },
   "dependencies": {
     "lodash": "^3.10.1",
