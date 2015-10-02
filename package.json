@@ -20,6 +20,8 @@
   },
   "homepage": "https://webcloud.se/yak",
   "devDependencies": {
+    "coveralls": "^2.11.4",
+    "istanbul": "^0.3.21",
     "mocha": "^2.3.3",
     "nock": "^2.13.0",
     "restify": "^4.0.2",

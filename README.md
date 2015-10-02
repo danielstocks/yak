@@ -1,6 +1,8 @@
-![yak](https://camo.githubusercontent.com/2c76dae0fe348946211981b2d16ff2a9a9fe8444/68747470733a2f2f706978616261792e636f6d2f7374617469632f75706c6f6164732f70686f746f2f323031322f30342f32362f31342f30312f79616b2d34323534315f3634302e706e67)
-
 # Yak
+
+[![Build Status](https://travis-ci.org/danielstocks/yak.png?branch=master)](https://travis-ci.org/danielstocks/yak)
+[![Code Climate](https://codeclimate.com/github/danielstocks/yak.png)](https://codeclimate.com/github/danielstocks/yak)
+[![Coveralls](https://img.shields.io/coveralls/danielstocks/yak/master.svg)](https://coveralls.io/github/danielstocks/yak?branch=master)
 
 Yak is an ORM that maps RESTful resources to JavaScript models/collections.
 
