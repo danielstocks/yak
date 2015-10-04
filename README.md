@@ -1,13 +1,14 @@
 # Yak
 
-[![Build Status](https://travis-ci.org/danielstocks/yak.png?branch=master)](https://travis-ci.org/danielstocks/yak)
-[![Code Climate](https://codeclimate.com/github/danielstocks/yak.png)](https://codeclimate.com/github/danielstocks/yak)
-[![Coveralls](https://img.shields.io/coveralls/danielstocks/yak/master.svg)](https://coveralls.io/github/danielstocks/yak?branch=master)
-
 Yak is an ORM that maps RESTful resources to JavaScript models/collections.
 
 Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Yak uses `window.fetch` on the client, and
 `node-fetch` on the server, which makes it really easy for you to write a persistence layer in an isomorphic fashion.
+
+[![Build Status](https://travis-ci.org/danielstocks/yak.png?branch=master)](https://travis-ci.org/danielstocks/yak)
+[![Code Climate](https://codeclimate.com/github/danielstocks/yak.png)](https://codeclimate.com/github/danielstocks/yak)
+[![Coveralls](https://img.shields.io/coveralls/danielstocks/yak/master.svg)](https://coveralls.io/github/danielstocks/yak?branch=master)
+
 
 ## Installation & Requirements
 
@@ -130,7 +131,7 @@ Retrieve a collection of models from server
 ```js
 // GET http://localhost:8080/users
 User.all().then(users => {
-  users.models.forEach(user => {
+  users.forEach(user => {
     console.log(user.attrs.id, user.attrs.name);
   });
 });
