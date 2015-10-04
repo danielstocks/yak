@@ -19,7 +19,8 @@ describe('Model instance', function() {
         request: requestSpy,
       });
       this.model = new TestModel({
-        attrs: { foo: "bar" }
+        attrs: { foo: 'bar' },
+        headers: { hello: 'friend' }
       });
     });
     describe('success', function() {
@@ -39,6 +40,9 @@ describe('Model instance', function() {
       });
       it('should call the correct endpoint', function() {
         assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests');
+      });
+      it('should call with correct headers', function() {
+        assert.deepEqual(this.requestSpy.args[0][3], { hello: 'friend' });
       });
       it('set returned attrs on model', function() {
         this.requestSpy.args[0][2].success({ high: 'five' });
@@ -77,7 +81,8 @@ describe('Model instance', function() {
         request: requestSpy,
       });
       this.existing = new TestModel({
-        attrs: { foo: "bar", id: 5 }
+        attrs: { foo: 'bar', id: 5 },
+        headers: { hello: 'friend' }
       });
     });
     describe('success', function() {
@@ -98,6 +103,9 @@ describe('Model instance', function() {
       it('set returned attrs on model', function() {
         this.requestSpy.args[0][2].success({ id: 5, high: 'five' });
         assert.deepEqual(this.existing.attrs, { id: 5, high: 'five' });
+      });
+      it('should call with correct headers', function() {
+        assert.deepEqual(this.requestSpy.args[0][3], { hello: 'friend' });
       });
       it('should call the correct endpoint', function() {
         assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests/5');
