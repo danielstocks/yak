@@ -1,6 +1,6 @@
 {
   "name": "yak-orm",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Yak is an ORM that maps REST resources to JavaScript models/collections",
   "main": "index.js",
   "scripts": {
