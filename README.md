@@ -150,7 +150,9 @@ to create the record on the endpoint.
 #### Example
 ```js
 // POST http://localhost:8080/users
-var user = new User({ name: "Daniel" });
+var user = new User({
+  attrs: { name: "Daniel" }
+});
 user.save().then(user => {
   // Update user name
   user.attrs.name = "Yak Yak"
@@ -168,7 +170,9 @@ Remove a model from server
 
 #### Example
 ```js
-var user = new User({ id: "5" });
+var user = new User({
+  attrs: { id: 5 }
+});
 // DELETE http://localhost:8080/users/5
 user.destroy().then(user => {
   console.log("Deleted user:", user.attrs.id);
@@ -176,3 +180,56 @@ user.destroy().then(user => {
   console.log(error);
 });
 ```
+
+## Nested resources
+
+### Setup
+
+```js
+var Comment = yak.model({
+  url: "comments"
+});
+
+var User = yak.model({
+  url: "users",
+  nested: {
+    "Comments" : Comment
+  }
+});
+```
+
+
+### modelInstance.get
+
+Get a nested resource
+
+#### Example
+```js
+var user = new User({
+  attrs: { id: 5 }
+});
+// GET http://localhost:8080/users/5/comments/3
+user.get("comments", { id: 3 }).then(user => {
+  console.log("Deleted user:", user.attrs.id);
+}).catch(error => {
+  console.log(error);
+});
+```
+
+### modelInstance.all
+
+Get a nested resource collection
+
+#### Example
+```js
+// GET http://localhost:8080/users/5/comments?published=true
+user.all("comments", {
+  where: {
+    published: true
+  }
+}).then(user => {
+  console.log("Deleted user:", user.attrs.id);
+}).catch(error => {
+  console.log(error);
+});
+``
