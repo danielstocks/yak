@@ -6,12 +6,23 @@ var context = new function() {
   this.host = "http://localhost/"
   this.model = model;
 }
+var fun = function() { return "funfunfun"}
 var TestModel = context.model({
-  url: "tests"
+  url: "tests",
+  fun: fun
 });
 
 
 describe('Model instance', function() {
+
+  it('should inherit methods', function() {
+    this.model = new TestModel({
+      attrs: { foo: 'bar' },
+      headers: { hello: 'friend' }
+    });
+    assert.equal(this.model.fun, fun);
+    assert.equal(this.model.fun(), "funfunfun");
+  });
   describe('save new', function() {
     before(function() {
       var requestSpy = this.requestSpy = sinon.stub();
