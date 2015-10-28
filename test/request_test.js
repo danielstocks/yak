@@ -21,6 +21,11 @@ describe('Request', function() {
         new Promise(function(resolve, reject) {
           resolve({
             status: 200,
+            headers: {
+              get: function() {
+                return 'application/json';
+              }
+            },
             json: function() {
               return new Promise(function(resolve, reject) {
                 resolve({ foo: "bar" });
@@ -63,9 +68,14 @@ describe('Request', function() {
         new Promise(function(resolve, reject) {
           resolve({
             status: 500,
+            headers: {
+              get: function() {
+                return 'application/json';
+              }
+            },
             json: function() {
               return new Promise(function(resolve, reject) {
-                resolve({ foo: "bar" });
+                resolve("lolol");
               })
             },
           });
@@ -77,7 +87,7 @@ describe('Request', function() {
       })
     });
     it('should return JSON', function() {
-      assert(naySpy.calledWith({ foo: 'bar'}));
+      assert(naySpy.calledWith("lolol"));
     });
   });
 });
