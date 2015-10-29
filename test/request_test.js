@@ -65,7 +65,7 @@ describe('Request', function() {
         fetch: fetchSpy,
       });
       fetchSpy.returns(
-        new Promise(function(resolve, reject) {
+        new Promise(function(resolve) {
           resolve({
             status: 500,
             headers: {
@@ -86,8 +86,9 @@ describe('Request', function() {
         error: naySpy,
       })
     });
-    it('should return JSON', function() {
-      assert(naySpy.calledWith("lolol"));
+    it('should return error and 500', function() {
+      assert(naySpy.args[0][1] == 'lolol');
+      assert(naySpy.args[0][2] == 500);
     });
   });
 });

@@ -76,8 +76,7 @@ describe('Model instance', function() {
         })
       });
       it('should return error in callback', function () {
-        var error = this.requestSpy.args[0][2].error('sup');
-        assert(error, 'sup');
+        assert(this.naySpy.calledWith('hello'));
       });
       it('should reject', function () {
         assert(this.naySpy.calledOnce);
@@ -129,7 +128,7 @@ describe('Model instance', function() {
       before(function() {
         this.requestSpy.withArgs('PATCH', 'http://localhost/tests/5').returns(
           new Promise(function(resolve, reject) {
-            reject();
+            reject('boo');
           })
         );
         this.naySpy = sinon.spy();
@@ -138,8 +137,7 @@ describe('Model instance', function() {
         })
       });
       it('should return error in callback', function () {
-        var error = this.requestSpy.args[0][2].error('sup');
-        assert(error, 'sup');
+        assert(this.naySpy.calledWith('boo'));
       });
       it('should reject', function () {
         assert(this.naySpy.calledOnce);
@@ -189,7 +187,7 @@ describe('Model instance', function() {
       before(function() {
         this.requestSpy.withArgs('DELETE', 'http://localhost/tests/5').returns(
           new Promise(function(resolve, reject) {
-            reject();
+            reject('foo');
           })
         );
         this.naySpy = sinon.spy();
@@ -198,8 +196,7 @@ describe('Model instance', function() {
         })
       });
       it('should return error in callback', function () {
-        var error = this.requestSpy.args[0][2].error('sup');
-        assert(error, 'sup');
+        assert(this.naySpy.calledWith('foo'));
       });
       it('should reject', function () {
         assert(this.naySpy.calledOnce);
@@ -220,7 +217,7 @@ describe('Model', function() {
       );
       requestSpy.withArgs('GET', 'http://localhost/tests/10').returns(
         new Promise(function(resolve, reject) {
-          reject();
+          reject('bar');
         })
       );
       model.__set__({
@@ -262,8 +259,7 @@ describe('Model', function() {
         });
       });
       it('should return error in callback', function () {
-        var error = this.requestSpy.args[0][2].error('sup');
-        assert(error, 'sup');
+        assert(this.naySpy.calledWith('bar'));
       });
       it('should call error callback on fail', function () {
         assert(this.naySpy.calledOnce);
@@ -281,7 +277,7 @@ describe('Model', function() {
       );
       requestSpy.withArgs('GET', 'http://localhost/tests?fail=me').returns(
         new Promise(function(resolve, reject) {
-          reject();
+          reject('ha');
         })
       );
       model.__set__({
@@ -322,8 +318,7 @@ describe('Model', function() {
         });
       });
       it('should return error in callback', function () {
-        var error = this.requestSpy.args[0][2].error('sup');
-        assert(error, 'sup');
+        assert(this.naySpy.calledWith('ha'));
       });
       it('should call error callback on fail', function () {
         assert(this.naySpy.calledOnce);
