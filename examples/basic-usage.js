@@ -43,14 +43,17 @@ var user = User.get({
     'Accept-Language' : 'fa',
   }
 }).then(user => {
+  console.log("\n");
+  console.log("--- \x1b[36m Get user example \x1b[0m ---");
   console.log("Retrieved user:", user.attrs.name);
-  console.log("-- comments --");
+  console.log("Comments:");
   user.attrs.comments.map(function(comment) {
     console.log(comment.attrs.body, "| posted", comment.attrs.yearsAgo, "years ago")
   });
 }).catch(error => {
   console.log(error);
 });
+
 
 // Create a new user
 var user = new User({
@@ -62,14 +65,19 @@ var user = new User({
     'Authentication-Token': 'abc123'
   }
 });
-
 // Persist to server
 user.save().then(user => {
+  console.log("\n");
+  console.log("--- \x1b[36m Create user example \x1b[0m ---");
+  console.log("User id:", user.attrs.id, "created");
+
   // Update user name
   user.attrs.name = "Yak Yak"
-  console.log("User id:", user.attrs.id, "created");
   return user.save()
+
 }).then(user => {
+  console.log("\n");
+  console.log("--- \x1b[36m Update user example \x1b[0m ---");
   console.log("User id:", user.attrs.id, "updated");
 }).catch(error => {
   console.log(error);
@@ -82,10 +90,12 @@ var invalidUser = new User({
     email: "invalid@webcloud.se"
   }
 });
-
 invalidUser.save().then(user => {
   console.log("this should not log");
 }).catch(error => {
+  console.log("\n");
+  console.log("--- \x1b[36m Create invalid user example  \x1b[0m ---");
+  console.log("User id:", user.attrs.id, "created");
   console.log("Could not save user:", error);
 });
 
@@ -95,14 +105,17 @@ User.all({
   where: {
     active : true
   }
-}).then(users => {
-  console.log("Fetching all users:");
-  users.forEach(user => {
-    console.log("\t", user.attrs.id, user.attrs.name);
+}).then(collection => {
+  console.log("\n");
+  console.log("--- \x1b[36m Fetching all users example  \x1b[0m ---");
+  collection.users.forEach(user => {
+    console.log(user.attrs.id, user.attrs.name);
   });
   // Delete the first user
-  return users[1].destroy();
+  return collection.users[1].destroy();
 }).then(user => {
+  console.log("\n");
+  console.log("--- \x1b[36m Delete user example  \x1b[0m ---");
   console.log("User id:", user.attrs.id, "deleted");
 }).catch(error => {
   console.log(error);
