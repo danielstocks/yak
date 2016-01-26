@@ -8,13 +8,20 @@ var context = new function() {
 }
 var fun = function() { return "funfunfun"}
 var TestModel = context.model({
-  url: "tests",
-  fun: fun
+  name: "fruits",
+  fun: fun,
+  parse: function(attrs) {
+    attrs.test = "test";
+    return attrs
+  }
+});
+
+var TestModel2 = context.model({
+  url: "bears"
 });
 
 
 describe('Model instance', function() {
-
   it('should inherit methods', function() {
     this.model = new TestModel({
       attrs: { foo: 'bar' },
@@ -22,6 +29,11 @@ describe('Model instance', function() {
     });
     assert.equal(this.model.fun, fun);
     assert.equal(this.model.fun(), "funfunfun");
+  });
+  it('should allow empty attrs', function() {
+    var model = new TestModel2();
+    console.log(model);
+    assert.deepEqual(model.attrs, {});
   });
   describe('save new', function() {
     before(function() {
@@ -36,7 +48,7 @@ describe('Model instance', function() {
     });
     describe('success', function() {
       before(function() {
-        this.requestSpy.withArgs('POST', 'http://localhost/tests').returns(
+        this.requestSpy.withArgs('POST', 'http://localhost/fruits').returns(
           new Promise(function(resolve, reject) {
             resolve();
           })
@@ -50,7 +62,7 @@ describe('Model instance', function() {
         assert.equal(this.requestSpy.args[0][0], 'POST')
       });
       it('should call the correct endpoint', function() {
-        assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests');
+        assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits');
       });
       it('should call with correct headers', function() {
         assert.deepEqual(this.requestSpy.args[0][3], { hello: 'friend' });
@@ -65,7 +77,7 @@ describe('Model instance', function() {
     });
     describe('fail', function() {
       before(function() {
-        this.requestSpy.withArgs('POST', 'http://localhost/tests').returns(
+        this.requestSpy.withArgs('POST', 'http://localhost/fruits').returns(
           new Promise(function(resolve, reject) {
             reject("hello");
           })
@@ -80,6 +92,13 @@ describe('Model instance', function() {
       });
       it('should reject', function () {
         assert(this.naySpy.calledOnce);
+      });
+    });
+    describe('error handler', function() {
+      it('should reject', function() {
+        var rejectSpy = sinon.spy();
+        this.model.errorHandler(rejectSpy, 'lol');
+        assert(rejectSpy.calledWith('lol'));
       });
     });
   });
@@ -97,7 +116,7 @@ describe('Model instance', function() {
     });
     describe('success', function() {
       before(function() {
-        this.requestSpy.withArgs('PATCH', 'http://localhost/tests/5').returns(
+        this.requestSpy.withArgs('PATCH', 'http://localhost/fruits/5').returns(
           new Promise(function(resolve, reject) {
             resolve();
           })
@@ -118,7 +137,7 @@ describe('Model instance', function() {
         assert.deepEqual(this.requestSpy.args[0][3], { hello: 'friend' });
       });
       it('should call the correct endpoint', function() {
-        assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests/5');
+        assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits/5');
       });
       it('should call success callback', function () {
         assert(this.yaySpy.calledOnce);
@@ -126,7 +145,7 @@ describe('Model instance', function() {
     });
     describe('fail', function() {
       before(function() {
-        this.requestSpy.withArgs('PATCH', 'http://localhost/tests/5').returns(
+        this.requestSpy.withArgs('PATCH', 'http://localhost/fruits/5').returns(
           new Promise(function(resolve, reject) {
             reject('boo');
           })
@@ -158,7 +177,7 @@ describe('Model instance', function() {
 
     describe('success', function() {
       before(function() {
-        this.requestSpy.withArgs('DELETE', 'http://localhost/tests/5').returns(
+        this.requestSpy.withArgs('DELETE', 'http://localhost/fruits/5').returns(
           new Promise(function(resolve, reject) {
             resolve();
           })
@@ -176,7 +195,7 @@ describe('Model instance', function() {
         assert.equal(this.existing, model);
       });
       it('should call the correct endpoint', function() {
-        assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests/5');
+        assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits/5');
       });
       it('should call success callback', function () {
         assert(this.yaySpy.calledOnce);
@@ -185,7 +204,7 @@ describe('Model instance', function() {
 
     describe('fail', function() {
       before(function() {
-        this.requestSpy.withArgs('DELETE', 'http://localhost/tests/5').returns(
+        this.requestSpy.withArgs('DELETE', 'http://localhost/fruits/5').returns(
           new Promise(function(resolve, reject) {
             reject('foo');
           })
@@ -210,12 +229,12 @@ describe('Model', function() {
   describe('get', function () {
     before(function() {
       var requestSpy = this.requestSpy = sinon.stub();
-      requestSpy.withArgs('GET', 'http://localhost/tests/5?foo=bar&bar=foo').returns(
+      requestSpy.withArgs('GET', 'http://localhost/fruits/5?foo=bar&bar=foo').returns(
         new Promise(function(resolve, reject) {
           resolve({ id: 5 });
         })
       );
-      requestSpy.withArgs('GET', 'http://localhost/tests/10').returns(
+      requestSpy.withArgs('GET', 'http://localhost/fruits/10').returns(
         new Promise(function(resolve, reject) {
           reject('bar');
         })
@@ -241,11 +260,11 @@ describe('Model', function() {
         assert.equal(this.requestSpy.args[0][0], 'GET')
       });
       it('should call the correct endpoint', function() {
-        assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests/5?foo=bar&bar=foo');
+        assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits/5?foo=bar&bar=foo');
       });
       it('should return new instance of model', function() {
         var model = this.requestSpy.args[0][2].success({ id: 5 });
-        assert.deepEqual(model.attrs, { id: 5 });
+        assert.deepEqual(model.attrs, { id: 5, test: 'test' });
       });
       it('should call success callback', function () {
         assert(this.yaySpy.calledOnce);
@@ -270,12 +289,17 @@ describe('Model', function() {
   describe('all', function () {
     before(function() {
       var requestSpy = this.requestSpy = sinon.stub();
-      requestSpy.withArgs('GET', 'http://localhost/tests?foo=bar&bar=foo').returns(
+      requestSpy.withArgs('GET', 'http://localhost/fruits?foo=bar&bar=foo').returns(
         new Promise(function(resolve, reject) {
           resolve();
         })
       );
-      requestSpy.withArgs('GET', 'http://localhost/tests?fail=me').returns(
+      requestSpy.withArgs('GET', 'http://localhost/bears').returns(
+        new Promise(function(resolve, reject) {
+          resolve();
+        })
+      );
+      requestSpy.withArgs('GET', 'http://localhost/fruits?fail=me').returns(
         new Promise(function(resolve, reject) {
           reject('ha');
         })
@@ -300,14 +324,29 @@ describe('Model', function() {
         assert.equal(this.requestSpy.args[0][0], 'GET')
       });
       it('should return a collection of models', function () {
-        var collection = this.requestSpy.args[0][2].success([{ id: 5 }]);
-        assert.deepEqual(collection[0].attrs, { id: 5 });
+        var collection = this.requestSpy.args[0][2].success({ fruits: [{ id: 5 }]});
+        assert.deepEqual(collection[0].attrs, { id: 5, test: "test" });
       });
       it('should call the correct endpoint', function() {
-        assert.equal(this.requestSpy.args[0][1], 'http://localhost/tests?foo=bar&bar=foo');
+        assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits?foo=bar&bar=foo');
       });
       it('should call success callback on success', function () {
         assert(this.yaySpy.calledOnce);
+      });
+      describe('without args and model without a name', function() {
+        before(function() {
+          this.yaySpy2 = sinon.spy();
+          TestModel2.all().then(bears => {
+            this.yaySpy2(bears);
+          });
+        });
+        it('should call success callback on success', function () {
+          assert(this.yaySpy2.calledOnce);
+        });
+        it('should return a collection of models', function () {
+          var collection = this.requestSpy.args[1][2].success([{ id: 5 }]);
+          assert.deepEqual(collection[0].attrs, { id: 5 });
+        });
       });
     });
     describe('fail', function() {

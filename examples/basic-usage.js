@@ -1,14 +1,40 @@
 var Yak = require('../index.js');
 
+
+process.on('unhandledRejection', function(reason, p) {
+  console.log("Unhandled Rejection:", reason.stack);
+  process.exit(1);
+});
+
+
 // Create new Yak instance
 var yak = new Yak({
   host: "http://localhost:8080/"
-})
+});
+
 
 // Model defintion
 var User = yak.model({
-  url: "users"
+  name: "users",
+  parse: function(attrs) {
+    if(attrs.comments) {
+      attrs.comments = attrs.comments.map(function(comment) {
+        return new Comment({ attrs: comment});
+      });
+    }
+    return attrs;
+  }
 });
+
+var Comment = yak.model({
+  name: "comments",
+  parse: function(attrs) {
+    attrs.yearsAgo = Math.abs(
+      new Date(Date.parse(attrs.postedAt)).getFullYear() - new Date().getFullYear()
+    );
+    return attrs;
+  }
+})
 
 // Get existing user
 var user = User.get({
@@ -17,7 +43,11 @@ var user = User.get({
     'Accept-Language' : 'fa',
   }
 }).then(user => {
-  console.log("Retrieved user:", user.attrs);
+  console.log("Retrieved user:", user.attrs.name);
+  console.log("-- comments --");
+  user.attrs.comments.map(function(comment) {
+    console.log(comment.attrs.body, "| posted", comment.attrs.yearsAgo, "years ago")
+  });
 }).catch(error => {
   console.log(error);
 });
