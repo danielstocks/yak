@@ -39,8 +39,8 @@ Fruit.all({
   where: {
     color: 'red'
   }
-}).then(fruits => {
-  fruits.forEach(fruit => {
+}).then(collection => {
+  collection.fruits.forEach(fruit => {
     console.log(fruit.attrs.name);
   });
 });
@@ -157,8 +157,8 @@ Retrieve a collection of models from server
 #### Example
 ```js
 // GET http://localhost:8080/users
-User.all().then(users => {
-  users.forEach(user => {
+User.all().then(collection => {
+  collection.users.forEach(user => {
     console.log(user.attrs.id, user.attrs.name);
   });
 });

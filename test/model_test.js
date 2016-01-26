@@ -17,6 +17,7 @@ var TestModel = context.model({
 });
 
 var TestModel2 = context.model({
+  name: "items",
   url: "bears"
 });
 
@@ -32,7 +33,6 @@ describe('Model instance', function() {
   });
   it('should allow empty attrs', function() {
     var model = new TestModel2();
-    console.log(model);
     assert.deepEqual(model.attrs, {});
   });
   describe('save new', function() {
@@ -325,7 +325,7 @@ describe('Model', function() {
       });
       it('should return a collection of models', function () {
         var collection = this.requestSpy.args[0][2].success({ fruits: [{ id: 5 }]});
-        assert.deepEqual(collection[0].attrs, { id: 5, test: "test" });
+        assert.deepEqual(collection.fruits[0].attrs, { id: 5, test: "test" });
       });
       it('should call the correct endpoint', function() {
         assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits?foo=bar&bar=foo');
@@ -344,8 +344,8 @@ describe('Model', function() {
           assert(this.yaySpy2.calledOnce);
         });
         it('should return a collection of models', function () {
-          var collection = this.requestSpy.args[1][2].success([{ id: 5 }]);
-          assert.deepEqual(collection[0].attrs, { id: 5 });
+          var collection = this.requestSpy.args[1][2].success({ items: [{ id: 5 }]});
+          assert.deepEqual(collection.items[0].attrs, { id: 5 });
         });
       });
     });
