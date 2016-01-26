@@ -8,13 +8,27 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
 server.pre(function (req, res, next) {
-  console.log("\n-- ", req.method, "---", req.url);
+  console.log("\n-- ", req.method, "--", req.url);
   console.log(req.headers);
   next();
 });
 
 var id = 2;
-var users = [{ id: 1, name: "John Doe", email: "john@doe.com" }]
+var users = [{
+  id: 1,
+  name: "John Doe",
+  email: "john@doe.com",
+  comments: [
+    {
+      postedAt: "1945-12-20",
+      body: "hey ho let's go"
+    },
+    {
+      postedAt: "1946-04-17",
+      body: "you're out of your mind"
+    }
+  ]
+}]
 
 function getUser(id) {
   return users.find(function(user) {
@@ -39,7 +53,9 @@ server.post('/users', function (req, res, next) {
 
 // Get users
 server.get('/users', (req, res, next) => {
-  res.send(users);
+  res.send({
+    users: users
+  });
   return next();
 });
 

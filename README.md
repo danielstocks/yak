@@ -12,22 +12,42 @@ Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.or
 
 ## Installation & Requirements
 
-Yak requires Node.js >= 4.0. To run in a web browser environment you'll need native or polyfilled support for
-ES6 Promises, Object.assign, Fat Arrow Syntax, and the window.fetch API.
+Run `npm install yak-orm` and then simply require it in your project.
 
-Run `npm install yak-orm` and then require it in your project:
+Yak requires Node.js >= 4.0 to run on the server.
+
+To run in a web browser environment you'll need native or polyfilled support for
+ES6 Promises, Object.assign, Fat Arrow Syntax, and the window.fetch API. It's also
+recommended that you use Webpack or Browserify to make your build.
+
+
+## Elevator pitch
 
 ```js
 var Yak = require('yak-orm');
 var yak = new Yak({
   host: "http://localhost:8080/"
 });
+
+var Fruit = yak.model({
+  name: "fruits"
+});
+
+// GET http://localhost:8000/fruits?color=red
+// returns { fruits: [{ name: "apple", name: "pomegranate"}] }
+Fruit.all({
+  where: {
+    color: 'red'
+  }
+}).then(fruits => {
+  fruits.forEach(fruit => {
+    console.log(fruit.attrs.name);
+  });
+});
 ```
 
-You should now be ready to go!
 
-
-## Yak is a work in progress
+### Yak is a work in progress
 
 Features that are on the roadmap but *not yet* currently implemented include:
 
@@ -52,6 +72,7 @@ Create a new Yak instance
 var yak = new Yak({
   host: "http://localhost:8080/"
 });
+
 ```
 
 ### yakInstance.model
@@ -59,13 +80,19 @@ var yak = new Yak({
 Create a new model based on a Yak instance
 
 #### Arguments
-- url (String) | The URL of specified model on API server
+- name (String) | The name of the resource specified on API server
+- url (String, optional) | Resource URI is generated based on name but can be overridden by passing this argument
+- parse (Function(attrs (Object) ), optional) | This method will be called every time a new instance of the model is created. It will receive the model attributes as an argument, allowing you to mutate them before model is created.
 
 #### Example
 ```js
 // Model defintion
 var User = yak.model({
-  url: "users"
+  name: "users",
+  parse: function(attrs) {
+    attrs.fullName = attrs.firstName + " " + attrs.lastName;
+    return attrs;
+  }
 });
 ```
 
