@@ -58,7 +58,7 @@ describe('Request', function() {
       );
     });
   });
-  describe('500 response', function() {
+  describe('500 json response', function() {
     before(function() {
       var fetchSpy = this.fetchSpy = sinon.stub();
       request.__set__({
@@ -86,9 +86,43 @@ describe('Request', function() {
         error: naySpy,
       })
     });
-    it('should return error and 500', function() {
-      assert(naySpy.args[0][1] == 'lolol');
-      assert(naySpy.args[0][2] == 500);
+    it('should return json error', function() {
+      assert.equal(naySpy.args[0][1], 'lolol');
+      assert.equal(naySpy.args[0][2], 500);
+    });
+  });
+
+  describe('500 text response', function() {
+    before(function() {
+      var fetchSpy = this.fetchSpy = sinon.stub();
+      request.__set__({
+        fetch: fetchSpy,
+      });
+      fetchSpy.returns(
+        new Promise(function(resolve) {
+          resolve({
+            status: 500,
+            headers: {
+              get: function() {
+                return 'text/plain';
+              }
+            },
+            text: function() {
+              return new Promise(function(resolve, reject) {
+                resolve('troll');
+              })
+            },
+          });
+        })
+      );
+      context.request('POST', 'http://lolcat.com/', {
+        success: yaySpy,
+        error: naySpy,
+      })
+    });
+    it('should return text error', function() {
+      assert.equal(naySpy.args[1][1], 'troll');
+      assert.equal(naySpy.args[1][2], 500);
     });
   });
 });
