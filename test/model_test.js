@@ -251,6 +251,9 @@ describe('Model', function() {
           where: {
             foo: 'bar',
             bar: 'foo'
+          },
+          headers: {
+            test: 'test-header'
           }
         }).then(() => {
           this.yaySpy();
@@ -265,6 +268,10 @@ describe('Model', function() {
       it('should return new instance of model', function() {
         var model = this.requestSpy.args[0][2].success({ id: 5 });
         assert.deepEqual(model.attrs, { id: 5, test: 'test' });
+      });
+      it('should set headers', function() {
+        var model = this.requestSpy.args[0][2].success({ id: 5 });
+        assert.deepEqual(model.headers, { test: 'test-header' });
       });
       it('should call success callback', function () {
         assert(this.yaySpy.calledOnce);
@@ -315,6 +322,9 @@ describe('Model', function() {
           where: {
             foo: 'bar',
             bar: 'foo'
+          },
+          headers: {
+            test: 'test-header'
           }
         }).then(testModel => {
           this.yaySpy(testModel);
@@ -326,6 +336,10 @@ describe('Model', function() {
       it('should return a collection of models', function () {
         var collection = this.requestSpy.args[0][2].success({ fruits: [{ id: 5 }]});
         assert.deepEqual(collection.fruits[0].attrs, { id: 5, test: "test" });
+      });
+      it('should set headers for each model in collection', function () {
+        var collection = this.requestSpy.args[0][2].success({ fruits: [{ id: 5 }]});
+        assert.deepEqual(collection.fruits[0].headers, { test: 'test-header' });
       });
       it('should call the correct endpoint', function() {
         assert.equal(this.requestSpy.args[0][1], 'http://localhost/fruits?foo=bar&bar=foo');

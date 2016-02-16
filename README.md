@@ -20,6 +20,14 @@ To run in a web browser environment you'll need native or polyfilled support for
 ES6 Promises, Object.assign, Fat Arrow Syntax, and the window.fetch API. It's also
 recommended that you use Webpack or Browserify to make your build.
 
+### Testing
+
+Run tests:
+`npm test`
+
+Run tests with code coverage:
+`istanbul cover _mocha`
+
 
 ## Elevator pitch
 
