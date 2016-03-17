@@ -2,7 +2,7 @@
 
 Yak is an ORM that maps RESTful resources to JavaScript models/collections.
 
-Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Yak uses `window.fetch` on the client, and
+Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Thanks to the [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) module, Yak uses `window.fetch` on the client, and
 `node-fetch` on the server, which makes it really easy for you to write a persistence layer in an isomorphic fashion.
 
 [![Build Status](https://travis-ci.org/danielstocks/yak.png?branch=master)](https://travis-ci.org/danielstocks/yak)
