@@ -2,12 +2,16 @@
 
 Yak is an ORM that maps RESTful resources to JavaScript models/collections.
 
-Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Thanks to the [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) module, Yak uses `window.fetch` on the client, and
-`node-fetch` on the server, which makes it really easy for you to write a persistence layer in an isomorphic fashion.
+<hr>
 
 [![Build Status](https://travis-ci.org/danielstocks/yak.png?branch=master)](https://travis-ci.org/danielstocks/yak)
 [![Code Climate](https://codeclimate.com/github/danielstocks/yak.png)](https://codeclimate.com/github/danielstocks/yak)
 [![Coveralls](https://img.shields.io/coveralls/danielstocks/yak/master.svg)](https://coveralls.io/github/danielstocks/yak?branch=master)
+
+Inspired by [Backbone.js](http://backbonejs.org/) and [Her](http://www.her-rb.org/), Yak is designed to build applications that are powered by a RESTful JSON API instead of a database. Yak uses `window.fetch` on the client, and
+`node-fetch` on the server, which makes it really easy for you to write a persistence layer in an isomorphic fashion.
+
+Yak is designed to be extremely lightweight, weighing in at **less than 1kb**. It's only dependency is the [window.fetch API](https://developers.google.com/web/updates/2015/03/introduction-to-fetch) which is gaining [native support](http://caniuse.com/#search=fetch) in most browsers as of writing.
 
 
 ## Installation & Requirements
@@ -19,14 +23,6 @@ Yak requires Node.js >= 4.0 to run on the server.
 To run in a web browser environment you'll need native or polyfilled support for
 ES6 Promises, Object.assign, Fat Arrow Syntax, and the window.fetch API. It's also
 recommended that you use Webpack or Browserify to make your build.
-
-### Testing
-
-Run tests:
-`npm test`
-
-Run tests with code coverage:
-`istanbul cover _mocha`
 
 
 ## Elevator pitch
@@ -211,3 +207,12 @@ user.destroy().then(user => {
   console.log(error);
 });
 ```
+
+
+### Testing
+
+Run tests:
+`npm test`
+
+Run tests with code coverage:
+`istanbul cover _mocha`
