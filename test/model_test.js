@@ -234,6 +234,11 @@ describe('Model', function() {
           resolve({ id: 5 });
         })
       );
+      requestSpy.withArgs('GET', 'http://localhost/fruits?foo=bar&bar=foo').returns(
+        new Promise(function(resolve, reject) {
+          resolve({});
+        })
+      );
       requestSpy.withArgs('GET', 'http://localhost/fruits/10').returns(
         new Promise(function(resolve, reject) {
           reject('bar');
@@ -275,6 +280,19 @@ describe('Model', function() {
       });
       it('should call success callback', function () {
         assert(this.yaySpy.calledOnce);
+      });
+      it('should get model without id', function () {
+        TestModel.get({
+          where: {
+            foo: 'bar',
+            bar: 'foo'
+          }
+        })
+        assert.equal(this.requestSpy.args[1][1], 'http://localhost/fruits?foo=bar&bar=foo');
+      });
+      it('should work with no arguments', function () {
+        TestModel.get()
+        assert.equal(this.requestSpy.args[2][1], 'http://localhost/fruits');
       });
     });
     describe('fail', function() {

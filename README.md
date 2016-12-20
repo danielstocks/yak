@@ -128,9 +128,11 @@ var user = new User({
 Retrieve a model from server
 
 #### Arguments
-- id (String) | An identifier that will be used to fetch the resource
+- id (String) | An identifier that can be used to fetch a specific resource
 - where (Object) | Additional query parameters to be sent in request
 - headers (Object) | Specify HTTP headers to be sent along with the request
+
+All arguments are optional
 
 #### Example
 ```js
@@ -215,4 +217,4 @@ Run tests:
 `npm test`
 
 Run tests with code coverage:
-`istanbul cover _mocha`
+`istanbul cover ./node_modules/mocha/bin/_mocha`
