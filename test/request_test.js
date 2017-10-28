@@ -23,7 +23,7 @@ describe('Request', function() {
             status: 200,
             headers: {
               get: function() {
-                return 'application/json';
+                return 'application/json; charset=utf-8';
               }
             },
             json: function() {
